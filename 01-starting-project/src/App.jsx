@@ -1,47 +1,17 @@
 // Images should be imported instead of directly referenced
-import reactImg from './assets/react-core-concepts.png';
 import componentsImg from './assets/components.png';
 import { CORE_CONCEPTS } from './data.js';            // Must use curly braces b/c it is a named export, not default
+import Header from './components/Header/Header.jsx';
+import CoreConcept from './components/CoreConcept.jsx';
+import TabButton from './components/TabButton.jsx';
 
-// Randomize Dynamic text
-const reactDescriptions = ['Fundamental', 'Crucial', 'Core'];
-function genRandomInt(max) {
-  return Math.floor(Math.random() * (max + 1));
-}
-
-// Function name MUST start with capital letter so that it can be executed simply by using the function name as a HTML tag
-function Header() {
-  // Good practice to set to variable and use variable later
-  const description = reactDescriptions[genRandomInt(2)];
-
-  return (    
-    <header>
-      {/* Should not reference images directly <img src="src/assets/react-core-concepts.png" /> */}
-      {/* Should reference dynamically by importing the images (see above) */}
-      <img src={reactImg} alt="Stylized atom" />
-      <h1>React Essentials</h1>
-      <p>
-        {/* Function to output a dynamic value */}
-        {/* Instead of variable, could have simply done {reactDescriptions[genRandomInt(2)]}*/}
-        {description} React concepts you will need for almost any app you are
-        going to build!
-      </p>
-    </header>
-  );
-}
-
-// Usings a single parameter (commonly called props - properties) is how we pass in values from attributes in tag
-function CoreConcept(props) {
-  return (
-    <li>
-      <img src={props.image} alt={props.title} />
-      <h3>{props.title}</h3>
-      <p>{props.description}</p>
-    </li>
-  );
-}
 
 function App() {
+  function buttonSelectHandler(selectedButton) {
+    // selectedButton would be 'components', 'jsx', 'props' or 'state'
+    console.log(selectedButton);
+  }
+
   return (
     <div>
       {/* Use Header tag to call Header function */}
@@ -82,6 +52,16 @@ function App() {
               <CoreConcept title={cc.title} description={cc.description} image={cc.image} />
             ))}
           </ul>
+        </section>
+        <section id="examples">
+          <h2>Examples</h2>
+          <menu>
+            <TabButton onSelect={() => buttonSelectHandler('components')}>Components</TabButton>
+            <TabButton onSelect={() => buttonSelectHandler('jsx')}>JSX</TabButton>
+            <TabButton onSelect={() => buttonSelectHandler('props')}>Props</TabButton>
+            <TabButton onSelect={() => buttonSelectHandler('state')}>State</TabButton>
+          </menu>
+          {/* Here is where the dynamic content will be displayed when a TabButton is clicked */}
         </section>
       </main>
     </div>
