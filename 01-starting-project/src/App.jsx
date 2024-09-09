@@ -1,4 +1,5 @@
 // Images should be imported instead of directly referenced
+import {useState} from 'react';
 import componentsImg from './assets/components.png';
 import { CORE_CONCEPTS } from './data.js';            // Must use curly braces b/c it is a named export, not default
 import Header from './components/Header/Header.jsx';
@@ -6,11 +7,44 @@ import CoreConcept from './components/CoreConcept.jsx';
 import TabButton from './components/TabButton.jsx';
 
 
+// Not allowed.  Violates Hook Rule #1
+// const [val, setVal] = useState(0)
+
 function App() {
+  // 2 Rules for using react hooks
+  // 1. Only call Hooks inside of Component functions
+  // 2.  Only call Hooks on the top level
+
+  // useState yields an array with exactly 2 elements (value and function delegate to set value)
+  //  const stateArray = useState("Please click a button");
+  // (using array destructing to store both elements into separate const identifies)
+  const [selectedTopic, setSelectedTopic] = useState("Please click a button");  // setting initial state value
+  //  --------^ (Current State Value - provided by react)
+  //  ------------------------^ (State updating function - updates the sotred value AND tells React to re-execute component
+
+
+  // Not allowed.  Violates Hook Rule #2
+  // if (someCondition) { const [val, setVal] = useState(0); }
+
+  // Using a variable to set dynamic content does not work.
+  // Need to use hook
+  let tabContent = "Please click a button";
+
   function buttonSelectHandler(selectedButton) {
     // selectedButton would be 'components', 'jsx', 'props' or 'state'
     console.log(selectedButton);
+
+    // Even after setting this variable to a different value, React does not update the content display
+    // This is because React will display only initial values, therefore, we must tell React to update/re-display the new content.
+    //tabContent = selectedButton;
+
+
+    // Use State (useState hook) to tell react to update/re-display the new content.
+    setSelectedTopic(selectedButton);
+    console.log(selectedTopic);   // Will not see update b/c the update will occur after the function has completed executing
   }
+
+  console.log("APP COMPONENT IS RENDERING");
 
   return (
     <div>
@@ -62,6 +96,8 @@ function App() {
             <TabButton onSelect={() => buttonSelectHandler('state')}>State</TabButton>
           </menu>
           {/* Here is where the dynamic content will be displayed when a TabButton is clicked */}
+          {/* this does not work {tabContent} */}
+          {selectedTopic}
         </section>
       </main>
     </div>
