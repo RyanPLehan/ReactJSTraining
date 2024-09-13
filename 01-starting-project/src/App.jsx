@@ -1,7 +1,9 @@
 // Images should be imported instead of directly referenced
 import {useState} from 'react';
 import componentsImg from './assets/components.png';
-import { CORE_CONCEPTS } from './data.js';            // Must use curly braces b/c it is a named export, not default
+//import { CORE_CONCEPTS } from './data.js';            // Must use curly braces b/c it is a named export, not default
+import { CORE_CONCEPTS } from './data-with-examples.js';
+import { EXAMPLES } from './data-with-examples.js';
 import Header from './components/Header/Header.jsx';
 import CoreConcept from './components/CoreConcept.jsx';
 import TabButton from './components/TabButton.jsx';
@@ -18,7 +20,7 @@ function App() {
   // useState yields an array with exactly 2 elements (value and function delegate to set value)
   //  const stateArray = useState("Please click a button");
   // (using array destructing to store both elements into separate const identifies)
-  const [selectedTopic, setSelectedTopic] = useState("Please click a button");  // setting initial state value
+  const [selectedTopic, setSelectedTopic] = useState("components");  // setting initial state value
   //  --------^ (Current State Value - provided by react)
   //  ------------------------^ (State updating function - updates the sotred value AND tells React to re-execute component
 
@@ -97,7 +99,15 @@ function App() {
           </menu>
           {/* Here is where the dynamic content will be displayed when a TabButton is clicked */}
           {/* this does not work {tabContent} */}
-          {selectedTopic}
+          <div id="tab-content">
+            <h3>{EXAMPLES[selectedTopic].title}</h3>
+            <p>{EXAMPLES[selectedTopic].description}</p>
+            <pre>
+              <code>
+              {EXAMPLES[selectedTopic].code}
+              </code>
+            </pre>
+          </div>
         </section>
       </main>
     </div>
